@@ -3,7 +3,6 @@ import {
   IsAlpha,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsString,
   MaxLength,
   Validate,
@@ -16,7 +15,7 @@ export class CreateUserDto {
     example: 'test@gmail.com',
   })
   @IsEmail()
-  @Validate(Unique, ['User', this])
+  @Validate(Unique, ['User'])
   email: string;
 
   @ApiProperty({
@@ -44,19 +43,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   password: string;
-
-  @ApiProperty({
-    description: 'Projects of the user',
-    example: '[{ slug: "dashboard-v3", role: 7 }]',
-    type: () => [ProjectUser],
-  })
-  projects: ProjectUser[];
-}
-
-class ProjectUser {
-  @MaxLength(15)
-  @IsNotEmpty()
-  slug: string;
-  @IsNumber()
-  role: number;
 }

@@ -13,7 +13,7 @@ export class Unique implements ValidatorConstraintInterface {
 
   async validate(value: string, validationArguments: ValidationArguments) {
     const [EntityClass] = validationArguments.constraints;
-    const uniqueOrUpdate = validationArguments.object
+    const uniqueOrUpdate = validationArguments.object.hasOwnProperty('id')
       ? { id: Not(validationArguments.object['id']) }
       : {};
 

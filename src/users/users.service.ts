@@ -36,7 +36,6 @@ export class UsersService {
   async findOne(id: number): Promise<User> {
     return await this.usersRepository.findOne({
       where: { id: id },
-      relations: ['projects'],
     });
   }
 
@@ -44,7 +43,6 @@ export class UsersService {
     try {
       return await this.usersRepository.findOneOrFail({
         where: { email: email },
-        relations: ['projects'],
       });
     } catch (e) {
       throw new NotFoundException('User not found');
@@ -67,7 +65,6 @@ export class UsersService {
     if (result.affected === 1) {
       return this.usersRepository.findOne({
         where: { id: id },
-        relations: ['projects'],
       });
     }
   }
@@ -75,7 +72,6 @@ export class UsersService {
   async delete(id: number): Promise<User> {
     const userToDelete = await this.usersRepository.findOne({
       where: { id: id },
-      relations: ['projects'],
     });
     const result = await this.usersRepository.softDelete({ id: id });
 

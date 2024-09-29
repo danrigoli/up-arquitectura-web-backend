@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { RequestUser } from './request/request-user.interface';
 import { UserDto } from 'src/users/dto/response/user.dto';
 import { CreateUserDto } from 'src/users/dto/request/create-user.dto';
+import { LoginDto } from './dto/request/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -21,8 +22,8 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Request() req: RequestUser) {
-    Logger.debug(`REQ.USER: ${JSON.stringify(req.user)}`);
+  async login(@Request() req: RequestUser, @Body() body: LoginDto) {
+    Logger.debug(`User ${body.email} logged in`);
     return this.authService.login(req.user);
   }
 

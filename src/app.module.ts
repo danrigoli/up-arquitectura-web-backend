@@ -6,7 +6,9 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core/constants';
+import { AuthModule } from './auth/auth.module';
+import { GlobalFilter } from './filter/error-exception.filter';
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ConfigModule.forRoot(),
     DatabaseModule,
     CacheModule.register(),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -22,6 +25,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalFilter,
     },
   ],
 })

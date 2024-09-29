@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { AuthUser } from './auth-user';
+import { AuthUser } from '../dto/response/auth-user';
 
 export interface RequestUser extends Request {
   user: AuthUser;
