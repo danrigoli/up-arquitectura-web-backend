@@ -13,15 +13,10 @@ export default new DataSource({
   username: configService.get('DATABASE_USER'),
   password: configService.get('DATABASE_PASSWORD'),
   database: configService.get('DATABASE_NAME'),
-  entities: ['dist/**/*.entity.{ts,js}'],
+  entities: ['src/**/*.entity.{ts,js}'],
   namingStrategy: new SnakeNamingStrategy(),
-  migrations: ['dist/database/migrations/*.{ts,js}'],
+  migrations: ['src/database/migrations/*.{ts,js}'],
   migrationsTableName: 'typeorm_migrations',
   synchronize: false,
-  ssl:
-    configService.get('ENVIRONMENT') === 'local'
-      ? false
-      : {
-          rejectUnauthorized: false,
-        },
+  ssl: false,
 });
