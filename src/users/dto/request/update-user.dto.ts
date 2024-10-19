@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
 import { IsEmail, Validate } from 'class-validator';
 import { Unique } from 'src/database/validators/unique.validator';
@@ -6,5 +6,9 @@ import { Unique } from 'src/database/validators/unique.validator';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsEmail()
   @Validate(Unique, ['User', this])
+  @ApiProperty({
+    description: 'Email of the user',
+    example: 'test@gmail.com',
+  })
   email: string;
 }

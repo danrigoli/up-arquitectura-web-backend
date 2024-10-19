@@ -7,8 +7,8 @@ import { CreateUserDto } from 'src/users/dto/request/create-user.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(
@@ -39,8 +39,8 @@ export class AuthService {
       expiresIn: '7d',
     });
     return {
-      access_token: accessToken,
-      refresh_token: refreshToken,
+      accessToken,
+      refreshToken,
     };
   }
 
@@ -59,7 +59,9 @@ export class AuthService {
   }
 
   async register(user: CreateUserDto) {
-    const createdUser = await this.usersService.create(user);
+    const createdUser = await this.usersService.create({
+      ...user,
+    });
     return { id: createdUser.id };
   }
 

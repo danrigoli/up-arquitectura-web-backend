@@ -18,7 +18,7 @@ import { LoginDto } from './dto/request/login.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
@@ -36,9 +36,9 @@ export class AuthController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
-  getProfile(@Request() req: RequestUser): Promise<UserDto> {
+  async getProfile(@Request() req: RequestUser): Promise<UserDto> {
     Logger.debug(`REQ.USER: ${JSON.stringify(req.user)}`);
-    return this.authService.getProfile(req.user.id);
+    return new UserDto(await this.authService.getProfile(req.user.id));
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
