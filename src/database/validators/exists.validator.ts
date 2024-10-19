@@ -8,7 +8,7 @@ import { EntityManager, Not } from 'typeorm';
 
 @ValidatorConstraint({ name: 'Unique', async: true })
 @Injectable()
-export class Unique implements ValidatorConstraintInterface {
+export class Exists implements ValidatorConstraintInterface {
   constructor(private readonly entityManager: EntityManager) {}
 
   async validate(value: string, validationArguments: ValidationArguments) {
@@ -20,16 +20,16 @@ export class Unique implements ValidatorConstraintInterface {
     return (
       (await this.entityManager.getRepository(EntityClass).count({
         where: {
-          [validationArguments.property]: value,
+          id: value,
           ...uniqueOrUpdate,
         },
-      })) <= 0
+      })) > 0
     );
   }
 
   public defaultMessage(arguments_: ValidationArguments) {
     const [EntityClass] = arguments_.constraints;
     const entity = EntityClass || 'Entity';
-    return `${entity} with the same '${arguments_.property}' already exist`;
+    return `${entity} with '${arguments_.property}' doesn't exist`;
   }
 }

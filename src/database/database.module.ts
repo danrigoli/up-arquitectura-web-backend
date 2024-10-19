@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { Unique } from './validators/unique.validator';
+import { Exists } from './validators/exists.validator';
 
 @Module({
   imports: [
@@ -34,6 +35,6 @@ import { Unique } from './validators/unique.validator';
       }),
     }),
   ],
-  providers: [Unique],
+  providers: [Unique, Exists],
 })
 export class DatabaseModule {}
