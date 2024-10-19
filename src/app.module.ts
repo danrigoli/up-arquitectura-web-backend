@@ -9,6 +9,8 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core/constants';
 import { AuthModule } from './auth/auth.module';
 import { GlobalFilter } from './filter/error-exception.filter';
+import { CategoriesModule } from './categories/categories.module';
+import { CompaniesModule } from './companies/companies.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { GlobalFilter } from './filter/error-exception.filter';
     DatabaseModule,
     CacheModule.register(),
     AuthModule,
+    CategoriesModule,
+    CompaniesModule,
   ],
   controllers: [AppController],
   providers: [
