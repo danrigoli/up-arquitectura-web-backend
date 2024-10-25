@@ -1,9 +1,9 @@
 import { Company } from 'src/companies/entities/company.entity';
 
 export class CompanyDto {
-  id?: number;
-  name?: string;
-  address?: string;
+  id: number;
+  name: string;
+  address: string;
 
   constructor(company: Company) {
     this.id = company.id;

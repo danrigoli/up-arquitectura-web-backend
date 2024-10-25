@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateCompanyDto } from './create-company.dto';
 import { IsNumber, Validate } from 'class-validator';
 import { Exists } from 'src/database/validators/exists.validator';
@@ -6,5 +6,9 @@ import { Exists } from 'src/database/validators/exists.validator';
 export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {
   @IsNumber()
   @Validate(Exists, ['Company'])
+  @ApiProperty({
+    description: 'ID of the company',
+    example: 1,
+  })
   id: number;
 }
