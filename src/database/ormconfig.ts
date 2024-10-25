@@ -1,7 +1,9 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { SeederOptions } from 'typeorm-extension';
+import InitSeeder from './seeds/init.seeder';
 
 config({ path: '.env' });
 const configService = new ConfigService();
@@ -19,4 +21,6 @@ export default new DataSource({
   migrationsTableName: 'typeorm_migrations',
   synchronize: false,
   ssl: false,
-});
+  seeds: [InitSeeder],
+  seedTableName: 'typeorm_seeds',
+} as DataSourceOptions & SeederOptions);
