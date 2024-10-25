@@ -1,3 +1,5 @@
+import { ColumnNumericTransformer } from 'src/database/transformers/column-numeric-transformer';
+import { Category } from '../../categories/entities/category.entity';
 import { Company } from '../../companies/entities/company.entity';
 import {
   Entity,
@@ -14,7 +16,12 @@ export class Payment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: new ColumnNumericTransformer(),
+  })
   amount: number;
 
   @Column()
@@ -22,6 +29,9 @@ export class Payment {
 
   @Column()
   companyId: number;
+
+  @Column({ nullable: true })
+  categoryId: number;
 
   @Column()
   description: string;
@@ -37,4 +47,7 @@ export class Payment {
 
   @ManyToOne(() => Company, (company) => company.payments)
   company: Company;
+
+  @ManyToOne(() => Category, (category) => category.payments)
+  category?: Category;
 }

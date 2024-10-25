@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsDate,
   IsNumber,
@@ -23,6 +24,7 @@ export class CreatePaymentDto {
     example: '2021-12-12',
   })
   @IsDate()
+  @Type(() => Date)
   date: Date;
 
   @ApiProperty({
