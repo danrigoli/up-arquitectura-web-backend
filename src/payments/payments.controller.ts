@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto } from './dto/request/create-payment.dto';
 import { UpdatePaymentDto } from './dto/request/update-payment.dto';
+import { ListPaymentsDto } from './dto/request/list-payments.dto';
 
 @Controller('payments')
 export class PaymentsController {
@@ -21,8 +23,13 @@ export class PaymentsController {
   }
 
   @Get()
-  findAll() {
-    return this.paymentsService.findAll();
+  findAll(@Query() listPaymentsDto: ListPaymentsDto) {
+    return this.paymentsService.findAll(listPaymentsDto);
+  }
+
+  @Get('count')
+  async getCount(@Query() listPaymentsDto: ListPaymentsDto) {
+    return { count: await this.paymentsService.getCount(listPaymentsDto) };
   }
 
   @Get(':id')
