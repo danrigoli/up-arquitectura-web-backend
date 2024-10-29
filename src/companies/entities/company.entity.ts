@@ -2,7 +2,6 @@ import { Payment } from '../../payments/entities/payment.entity';
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -26,9 +25,6 @@ export class Company {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
-
   @OneToMany(() => Payment, (payment) => payment.company)
-  payments: Payment[];
+  payments?: Payment[];
 }
