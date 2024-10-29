@@ -1,73 +1,67 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Proyecto final Arquitectura Web Universidad de Palermo
+```markdown
+# Ejecución del Proyecto en Local
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Para ejecutar el proyecto localmente, sigue estos pasos:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Requisitos Previos
+- **Node.js**: Asegúrate de tener Node.js instalado. Puedes especificar la versión usando NVM (Node Version Manager) según el archivo `.nvmrc`.
+- **Docker**: Asegúrate de que Docker y Docker Compose estén instalados si planeas ejecutar la aplicación con Docker.
 
-## Description
+## Pasos para Ejecutar en Local
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. **Clonar el Repositorio**:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-## Installation
+2. **Instalar Dependencias**: Usa npm para instalar todas las dependencias necesarias.
+   ```bash
+   npm install
+   ```
 
-```bash
-$ npm install
+3. **Configurar Variables de Entorno**:
+   - Copia el archivo `.env.example` y renómbralo a `.env`.
+   - Completa las variables de entorno en el archivo `.env` con tus configuraciones específicas.
+
+4. **Configuración de la Base de Datos (PostgreSQL)**:
+   - Puedes ejecutar una instancia local de PostgreSQL o usar la configuración de Docker proporcionada (ver detalles a continuación).
+   - Asegúrate de que las configuraciones de la base de datos en el archivo `.env` coincidan con tu configuración local.
+
+5. **Ejecutar Migraciones de la Base de Datos**:
+   - Asegúrate de que tu base de datos esté en ejecución y ejecuta las migraciones para configurar el esquema de la base de datos:
+     ```bash
+     npm run typeorm:run-migrations
+     ```
+
+6. **Ejecutar la Aplicación**:
+   - **Modo Desarrollo**: Ejecuta la aplicación en modo de desarrollo con recarga automática.
+     ```bash
+     npm run start:dev
+     ```
+   - **Modo Producción**: Construye y ejecuta la aplicación en modo de producción.
+     ```bash
+     npm run build
+     npm run start:prod
+     ```
+
+## Ejecución con Docker
+
+1. **Construir y Ejecutar con Docker Compose**:
+   - Navega al directorio raíz del proyecto.
+   - Usa Docker Compose para construir e iniciar la aplicación junto con la base de datos:
+     ```bash
+     docker-compose up --build
+     ```
+   Esto creará y ejecutará contenedores para la aplicación (api) y una base de datos PostgreSQL (postgres).
+
+2. **Acceso a la Aplicación**:
+   - El servidor de la API estará disponible en [http://localhost:4000](http://localhost:4000) (ajusta según cualquier cambio en el archivo `docker-compose.yml`).
+   - Asegúrate de que la configuración de puertos en `.env` y en los puertos de Docker coincidan para evitar conflictos.
+
+## Acceso a la Aplicación
+- **Documentación de la API**: Accede a la documentación de la API Swagger y a la interfaz de prueba en [http://localhost:4000/api](http://localhost:4000/api) una vez que el servidor esté en ejecución.
+
+Siguiendo estos pasos, deberías poder ejecutar la aplicación de NestJS en local para desarrollo, pruebas o propósitos de integración.
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
