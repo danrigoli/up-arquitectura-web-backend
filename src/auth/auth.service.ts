@@ -54,7 +54,7 @@ export class AuthService {
       expiresIn: '3600s',
     });
     return {
-      access_token: accessToken,
+      accessToken: accessToken,
     };
   }
 
