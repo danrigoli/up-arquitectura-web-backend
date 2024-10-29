@@ -1,10 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/request/create-payment.dto';
 import { UpdatePaymentDto } from './dto/request/update-payment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Payment } from './entities/payment.entity';
-import { PaymentDto } from './dto/response/payment.dto';
 import { ListPaymentsDto } from './dto/request/list-payments.dto';
 
 @Injectable()
@@ -15,77 +14,40 @@ export class PaymentsService {
   ) {}
 
   async create(createPaymentDto: CreatePaymentDto) {
-    try {
-      const payment = await this.paymentRepository.save(createPaymentDto);
-      return new PaymentDto(payment);
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(error.message, 'Error creating payment');
-    }
+    return await this.paymentRepository.save(createPaymentDto);
   }
 
   async findAll(listPaymentsDto: ListPaymentsDto) {
-    try {
-      const paymentsQuery = this.getPaymentsQuery(listPaymentsDto);
-      paymentsQuery.offset(listPaymentsDto.offset);
-      paymentsQuery.limit(listPaymentsDto.limit);
-      const payments = await paymentsQuery.getMany();
-      return payments.map((payment) => new PaymentDto(payment));
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(error.message, 'Error fetching payments');
-    }
+    const paymentsQuery = this.getPaymentsQuery(listPaymentsDto);
+    paymentsQuery.offset(listPaymentsDto.offset);
+    paymentsQuery.limit(listPaymentsDto.limit);
+    return await paymentsQuery.getMany();
   }
 
   async getCount(listPaymentsDto: ListPaymentsDto) {
-    try {
-      const paymentsQuery = this.getPaymentsQuery(listPaymentsDto);
-      return paymentsQuery.getCount();
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(
-        error.message,
-        'Error fetching payments count',
-      );
-    }
+    const paymentsQuery = this.getPaymentsQuery(listPaymentsDto);
+    return paymentsQuery.getCount();
   }
 
   async findOne(id: number) {
-    try {
-      const payment = await this.paymentRepository.findOne({
-        where: { id },
-        relations: ['company', 'category'],
-      });
-      return new PaymentDto(payment);
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(error.message, 'Error fetching payment');
-    }
+    return await this.paymentRepository.findOne({
+      where: { id },
+      relations: ['company', 'category'],
+    });
   }
 
   async update(id: number, updatePaymentDto: UpdatePaymentDto) {
-    try {
-      const payment = await this.paymentRepository.findOne({
-        where: { id },
-      });
-      return await this.paymentRepository.save({
-        ...payment,
-        ...updatePaymentDto,
-      });
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(error.message, 'Error updating payment');
-    }
+    const payment = await this.paymentRepository.findOne({
+      where: { id },
+    });
+    return await this.paymentRepository.save({
+      ...payment,
+      ...updatePaymentDto,
+    });
   }
 
   async remove(id: number) {
-    try {
-      const deleteResult = await this.paymentRepository.softDelete(id);
-      return deleteResult;
-    } catch (error) {
-      Logger.error(error.message);
-      throw new BadRequestException(error.message, 'Error deleting payment');
-    }
+    return await this.paymentRepository.delete(id);
   }
 
   getPaymentsQuery(query: ListPaymentsDto) {

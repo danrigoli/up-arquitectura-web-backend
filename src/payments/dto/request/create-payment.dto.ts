@@ -43,4 +43,13 @@ export class CreatePaymentDto {
     example: 1,
   })
   companyId: number;
+
+  @Validate(Exists, ['Category'])
+  @IsNumber()
+  @IsPositive()
+  @ApiProperty({
+    description: 'Category ID of the payment',
+    example: 1,
+  })
+  categoryId: number;
 }

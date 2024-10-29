@@ -10,11 +10,11 @@ export class ListPaymentsDto {
 
   @ApiProperty()
   @IsOptional()
-  limit = 30;
+  limit? = 30;
 
   @ApiProperty()
   @IsOptional()
-  offset = 0;
+  offset? = 0;
 
   @ApiProperty()
   @IsOptional()

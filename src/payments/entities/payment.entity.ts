@@ -1,4 +1,4 @@
-import { ColumnNumericTransformer } from 'src/database/transformers/column-numeric-transformer';
+import { ColumnNumericTransformer } from '../../database/transformers/column-numeric-transformer';
 import { Category } from '../../categories/entities/category.entity';
 import { Company } from '../../companies/entities/company.entity';
 import {
@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  DeleteDateColumn,
   UpdateDateColumn,
   CreateDateColumn,
 } from 'typeorm';
@@ -42,12 +41,15 @@ export class Payment {
   @CreateDateColumn()
   createdAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
-
-  @ManyToOne(() => Company, (company) => company.payments)
+  @ManyToOne(() => Company, (company) => company.payments, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
   company: Company;
 
-  @ManyToOne(() => Category, (category) => category.payments)
+  @ManyToOne(() => Category, (category) => category.payments, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
   category?: Category;
 }
