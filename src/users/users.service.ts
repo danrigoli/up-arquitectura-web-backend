@@ -73,7 +73,7 @@ export class UsersService {
     const userToDelete = await this.usersRepository.findOne({
       where: { id: id },
     });
-    const result = await this.usersRepository.softDelete({ id: id });
+    const result = await this.usersRepository.delete({ id: id });
 
     if (result.affected === 1) {
       return userToDelete;
