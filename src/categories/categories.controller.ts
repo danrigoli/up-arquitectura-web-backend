@@ -8,13 +8,18 @@ import {
   Delete,
   BadRequestException,
   Logger,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
 import { CategoryDto } from './dto/response/category.dto';
+import { ListCategoriesDto } from './dto/request/list-categories.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('categories')
+@UseGuards(AuthGuard('jwt'))
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -30,14 +35,20 @@ export class CategoriesController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(@Query() listCategoriesDto: ListCategoriesDto) {
     try {
-      const categories = await this.categoriesService.findAll();
+      const categories =
+        await this.categoriesService.findAll(listCategoriesDto);
       return categories.map((category) => new CategoryDto(category));
     } catch (error) {
       Logger.error(error.message);
       throw new BadRequestException(error.message, 'Error fetching categories');
     }
+  }
+
+  @Get('count')
+  async getCount(@Query() listCategoriesDto: ListCategoriesDto) {
+    return { count: await this.categoriesService.getCount(listCategoriesDto) };
   }
 
   @Get(':id')

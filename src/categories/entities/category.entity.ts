@@ -3,7 +3,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  DeleteDateColumn,
   UpdateDateColumn,
   CreateDateColumn,
   OneToMany,
@@ -23,9 +22,6 @@ export class Category {
   @CreateDateColumn()
   createdAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
-
   @OneToMany(() => Payment, (payment) => payment.category)
-  payments: Payment[];
+  payments?: Payment[];
 }
