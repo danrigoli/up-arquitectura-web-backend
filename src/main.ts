@@ -12,8 +12,8 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const swagConfig = new DocumentBuilder()
-    .setTitle('IndeeHub API')
-    .setDescription('This is the API for the IndeeHub application')
+    .setTitle('TP Final API')
+    .setDescription('This is the API for the TP Final application')
     .setVersion('1.0')
     .build();
 

@@ -17,13 +17,24 @@ import { UpdateCategoryDto } from './dto/request/update-category.dto';
 import { CategoryDto } from './dto/response/category.dto';
 import { ListCategoriesDto } from './dto/request/list-categories.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('categories')
 @Controller('categories')
+@ApiHeader({
+  name: 'Authorization',
+  description: 'Bearer token',
+})
 @UseGuards(AuthGuard('jwt'))
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
+  @ApiResponse({
+    status: 201,
+    description: 'Category created',
+    type: CategoryDto,
+  })
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     try {
       const created = await this.categoriesService.create(createCategoryDto);
@@ -35,6 +46,12 @@ export class CategoriesController {
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'List of categories',
+    type: CategoryDto,
+    isArray: true,
+  })
   async findAll(@Query() listCategoriesDto: ListCategoriesDto) {
     try {
       const categories =
@@ -47,11 +64,20 @@ export class CategoriesController {
   }
 
   @Get('count')
+  @ApiResponse({
+    status: 200,
+    description: 'Count of categories',
+  })
   async getCount(@Query() listCategoriesDto: ListCategoriesDto) {
     return { count: await this.categoriesService.getCount(listCategoriesDto) };
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Category found',
+    type: CategoryDto,
+  })
   async findOne(@Param('id') id: string) {
     try {
       const category = await this.categoriesService.findOne(+id);
@@ -63,6 +89,11 @@ export class CategoriesController {
   }
 
   @Patch(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Category updated',
+    type: CategoryDto,
+  })
   async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -80,6 +111,10 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Category deleted',
+  })
   async remove(@Param('id') id: string) {
     try {
       return await this.categoriesService.remove(+id);

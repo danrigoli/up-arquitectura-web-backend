@@ -17,13 +17,24 @@ import { UpdateCompanyDto } from './dto/request/update-company.dto';
 import { CompanyDto } from './dto/response/company.dto';
 import { ListCompaniesDto } from './dto/request/list-companies.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('companies')
 @UseGuards(AuthGuard('jwt'))
+@ApiTags('companies')
+@ApiHeader({
+  name: 'Authorization',
+  description: 'Bearer token',
+})
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
+  @ApiResponse({
+    status: 201,
+    description: 'Company created',
+    type: CompanyDto,
+  })
   async create(@Body() createCompanyDto: CreateCompanyDto) {
     try {
       const company = await this.companiesService.create(createCompanyDto);
@@ -35,6 +46,12 @@ export class CompaniesController {
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'List of companies',
+    type: CompanyDto,
+    isArray: true,
+  })
   async findAll(@Query() listCompaniesDto: ListCompaniesDto) {
     try {
       const companies = await this.companiesService.findAll(listCompaniesDto);
@@ -46,6 +63,10 @@ export class CompaniesController {
   }
 
   @Get('count')
+  @ApiResponse({
+    status: 200,
+    description: 'Count of companies',
+  })
   async getCount(@Query() listCompaniesDto: ListCompaniesDto) {
     try {
       return { count: await this.companiesService.getCount(listCompaniesDto) };
@@ -59,6 +80,11 @@ export class CompaniesController {
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Company found',
+    type: CompanyDto,
+  })
   async findOne(@Param('id') id: string) {
     try {
       const company = await this.companiesService.findOne(+id);
@@ -70,6 +96,11 @@ export class CompaniesController {
   }
 
   @Patch(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Company updated',
+    type: CompanyDto,
+  })
   async update(
     @Param('id') id: string,
     @Body() updateCompanyDto: UpdateCompanyDto,
@@ -84,6 +115,10 @@ export class CompaniesController {
   }
 
   @Delete(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Company deleted',
+  })
   async remove(@Param('id') id: string) {
     try {
       return await this.companiesService.remove(+id);
