@@ -1,6 +1,4 @@
-# Proyecto final Arquitectura Web Universidad de Palermo
-```markdown
-# Ejecución del Proyecto en Local
+#  Proyecto final Arquitectura Web Universidad de Palermo
 
 Para ejecutar el proyecto localmente, sigue estos pasos:
 
@@ -64,4 +62,20 @@ Para ejecutar el proyecto localmente, sigue estos pasos:
 - **Documentación de la API**: Accede a la documentación de la API Swagger y a la interfaz de prueba en [http://localhost:4000/api](http://localhost:4000/api) una vez que el servidor esté en ejecución.
 
 Siguiendo estos pasos, deberías poder ejecutar la aplicación de NestJS en local para desarrollo, pruebas o propósitos de integración.
-```
+
+## Ejecucion de pruebas E2E y Unitarias
+Las pruebas E2E y Unitarias se ejecutan con Jest. Puedes ejecutar las pruebas con los siguientes comandos:
+
+- **Pruebas Unitarias**:
+  ```bash
+  npm run test
+  ```
+- **Pruebas E2E**:
+  ```bash
+  npm run test:e2e
+  ```
+- **Cobertura de Pruebas**:
+  ```bash
+  npm run test:cov
+  ```
+
